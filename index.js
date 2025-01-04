@@ -4,12 +4,16 @@ import bodyParser from 'body-parser';
 import mongoose, { Mongoose } from 'mongoose';
 import userRouter from './routes/userRouter.js';
 import productRoute from './routes/productsRoute.js';
+import dotenv from "dotenv";
 const app = express();
+
+
+dotenv.config();
 
 
 import jwt from "jsonwebtoken";
 
-const mongoUrl = "mongodb+srv://admin:123@cluster0.hpnby.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const mongoUrl = process.env.MONGO_URL;
 
 app.use(bodyParser.json());
 
