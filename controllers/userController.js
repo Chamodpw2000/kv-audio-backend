@@ -4,7 +4,11 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 
 
+dotenv.config();
+
+
 export function AddUser(req,res){
+
 
 
     const data = req.body;
@@ -39,7 +43,8 @@ export function userLogin(req,res){
                         firstName:user.firstName,
                         lastName:user.lastName,
                         email:user.email,
-                        role:user.role
+                        role:user.role,
+                        profilePicture:user.profilePicture
                     },process.env.JWT_SECRET)
                     res.status(200).json({message:"Login Successful", token:token});
 

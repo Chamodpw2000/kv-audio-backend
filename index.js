@@ -12,6 +12,7 @@ dotenv.config();
 
 
 import jwt from "jsonwebtoken";
+import reviewRouter from './routes/reviewRoute.js';
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
 
             if (!err) {
                 req.user = decoded;
-                console.log(decoded);
+                // console.log(decoded.iat);
 
             }
         });
@@ -53,6 +54,7 @@ app.listen(3000, () => {
 
 app.use("/api/users", userRouter);
 app.use("/api/products", productRoute);
+app.use("/api/reviews", reviewRouter);
 
 
 
