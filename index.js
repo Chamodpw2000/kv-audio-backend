@@ -63,7 +63,7 @@ app.use("/api/reviews", reviewRouter);
 app.get('/', (req, res) => {
 
 
-
+// 
     // Student.find().then((result)=> {res.status(200).json(result)}
 
 
