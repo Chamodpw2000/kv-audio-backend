@@ -6,6 +6,11 @@ import userRouter from './routes/userRouter.js';
 import productRoute from './routes/productsRoute.js';
 import dotenv from "dotenv";
 const app = express();
+
+//
+dotenv.config();
+
+
 import jwt from "jsonwebtoken";
 import reviewRouter from './routes/reviewRoute.js';
 import inquiryRouter from './routes/inquiryRoute.js';
@@ -65,7 +70,7 @@ app.use("/api/inquiries",inquiryRouter);
 app.get('/', (req, res) => {
 
 
-
+// 
     // Student.find().then((result)=> {res.status(200).json(result)}
 
 
