@@ -6,13 +6,14 @@ import userRouter from './routes/userRouter.js';
 import productRoute from './routes/productsRoute.js';
 import dotenv from "dotenv";
 const app = express();
-
+import jwt from "jsonwebtoken";
+import reviewRouter from './routes/reviewRoute.js';
+import inquiryRouter from './routes/inquiryRoute.js';
 
 dotenv.config();
 
 
-import jwt from "jsonwebtoken";
-import reviewRouter from './routes/reviewRoute.js';
+
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -55,6 +56,7 @@ app.listen(3000, () => {
 app.use("/api/users", userRouter);
 app.use("/api/products", productRoute);
 app.use("/api/reviews", reviewRouter);
+app.use("/api/inquiries",inquiryRouter);
 
 
 
