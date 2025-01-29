@@ -1,11 +1,15 @@
 import express from 'express';
-import axios from 'axios';
+
 import bodyParser from 'body-parser';
 import mongoose, { Mongoose } from 'mongoose';
 import userRouter from './routes/userRouter.js';
 import productRoute from './routes/productsRoute.js';
 import dotenv from "dotenv";
+import cors from "cors";
+
+
 const app = express();
+app.use(cors());
 
 //
 dotenv.config();
