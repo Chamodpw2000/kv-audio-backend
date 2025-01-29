@@ -11,7 +11,7 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-//
+
 dotenv.config();
 
 
@@ -21,7 +21,7 @@ import inquiryRouter from './routes/inquiryRoute.js';
 
 dotenv.config();
 
-
+//
 
 
 const mongoUrl = process.env.MONGO_URL;
