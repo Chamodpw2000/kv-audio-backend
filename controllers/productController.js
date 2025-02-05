@@ -4,6 +4,11 @@ import { isItAdmin } from "./userController.js"
 export function AddProduct(req, res) {
 
 
+  console.log(req.body);
+  
+  
+
+
   if (req.user == null) {
     res.status(401).json({
       message: "Please login and try again"
@@ -25,7 +30,7 @@ export function AddProduct(req, res) {
       res.json({ message: "Product added successfully" });
     })
     .catch((error) => {
-      res.status(500).json({ error: "Product addition failed" });
+      res.status(500).json({ error: "Product addition failed", error });
     });
 }
 
