@@ -78,26 +78,36 @@ export async function UpdateProduct(req,res){
 }
 
 
-export async function DeleteProduct(req,res){
-  try{
-    if(isItAdmin(req)){
+export async function DeleteProduct(req, res) {
+  try {
+    console.log("Delete Product");
+
+    if (isItAdmin(req)) {
       const key = req.params.key;
-      await Product.findOneAndDelete({key:key})
-      res.status(200).json({message:"Product Deleted Sucessfully"})
+      console.log("admin");
+      
+      
+      // Add error handling for the delete operation
+      const deletedProduct = await Product.findOneAndDelete({ key: key });
 
+      
 
-  }else{
-    res.status(403).json({message:"You are not Authorized to do this action"})
-  
-  return;
-  }
+      
+      
+      if (!deletedProduct) {
+        return res.status(404).json({ message: "Product not found" });
+      }
 
-}catch{
-
-  res.json({message:"Error Deleting Product"})
-
+      return res.status(200).json({ message: "Product Deleted Successfully" });
+    } else {
+      return res.status(403).json({ message: "You are not Authorized to do this action" });
+    }
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return res.status(500).json({ message: "Error Deleting Product" });
   }
 }
+
 
 
 
