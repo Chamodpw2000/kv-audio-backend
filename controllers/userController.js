@@ -8,6 +8,11 @@ dotenv.config();
 
 
 export function AddUser(req, res) {
+    console.log("Add User");
+    
+
+    console.log(req);
+    
 
 
 
