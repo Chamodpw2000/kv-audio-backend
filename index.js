@@ -37,14 +37,10 @@ app.use((req, res, next) => {
 });
 
 // MongoDB Connection
-mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("✅ MongoDB Connection Established Successfully");
-}).catch((error) => {
-    console.error("❌ MongoDB Connection Failed:", error);
-});
+mongoose.connect(MONGO_URL)
+    .then(() => console.log("✅ MongoDB Connection Established Successfully"))
+    .catch((error) => console.error("❌ MongoDB Connection Failed:", error));
+
 
 // API Routes
 app.use("/api/users", userRouter);
@@ -54,7 +50,7 @@ app.use("/api/inquiries", inquiryRouter);
 
 // Test Routes
 app.get('/', (req, res) => {
-    res.send("Welcome to the API!");
+    res.send("Welcome to the KV-Audio Backend");
 });
 
 app.post('/', (req, res) => {
