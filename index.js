@@ -1,162 +1,75 @@
 import express from 'express';
-
 import bodyParser from 'body-parser';
-import mongoose, { Mongoose } from 'mongoose';
-import userRouter from './routes/userRouter.js';
-import productRoute from './routes/productsRoute.js';
+import mongoose from 'mongoose';
 import dotenv from "dotenv";
 import cors from "cors";
-
-const app = express();
-app.use(cors());
-
-
-dotenv.config();
-
-
 import jwt from "jsonwebtoken";
+
+import userRouter from './routes/userRouter.js';
+import productRoute from './routes/productsRoute.js';
 import reviewRouter from './routes/reviewRoute.js';
 import inquiryRouter from './routes/inquiryRoute.js';
 
+// Load environment variables
 dotenv.config();
 
-//
-
-
-const mongoUrl = process.env.MONGO_URL;
-
+const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
+const PORT = process.env.PORT || 3000;
+const MONGO_URL = process.env.MONGO_URL;
+const JWT_SECRET = process.env.JWT_SECRET;
 
+// Middleware for authentication
 app.use((req, res, next) => {
-
     let token = req.header("Authorization");
 
-
-
-    //created the auth 
-
-    if (token != null) {
+    if (token) {
         token = token.replace("Bearer ", "");
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-
+        jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (!err) {
                 req.user = decoded;
-                // console.log(decoded.iat);
-
             }
         });
     }
-    next()
+    next();
 });
 
-mongoose.connect(mongoUrl)
-const connection = mongoose.connection
-
-connection.once("open", () => {
-    console.log("MongoDB Connection Established Successfully");
-})
-
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// MongoDB Connection
+mongoose.connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("✅ MongoDB Connection Established Successfully");
+}).catch((error) => {
+    console.error("❌ MongoDB Connection Failed:", error);
 });
 
+// API Routes
 app.use("/api/users", userRouter);
 app.use("/api/products", productRoute);
 app.use("/api/reviews", reviewRouter);
-app.use("/api/inquiries",inquiryRouter);
+app.use("/api/inquiries", inquiryRouter);
 
-
-
-
-
+// Test Routes
 app.get('/', (req, res) => {
-
-
-// 
-    // Student.find().then((result)=> {res.status(200).json(result)}
-
-
-
-
-
-
-
-    // ).catch(()=>{
-    //     res.status(400).json({
-    //         message:"error occured"
-    //     })
-    // })
-
-
-
+    res.send("Welcome to the API!");
 });
-
-
-
 
 app.post('/', (req, res) => {
-
-
-
-    // let newStudent = req.body
-
-    // let student = new Student(newStudent)
-
-
-
-
-    // student.save().then(()=>
-
-    //     {
-
-    //     res.json({
-    //         "message":"Student "+ req.body.name + " Saved Successfully " 
-    //     })
-
-    // }
-
-    // ).catch(()=>{
-
-
-    //     res.json({"message" : "Error Saving Data"})
-
-
-
-    // }
-
-    // )
-
-
-
-
-
-
-    //     console.log("This is a post request")
-
-    //     console.log(req.body); 
-
-    // res.json({"text":req.body.Name + " is " + req.body.Age + " years old"})
-
-
-
+    res.json({ message: `Received POST request with data: ${JSON.stringify(req.body)}` });
 });
 
-
-
-
 app.delete('/', (req, res) => {
-    console.log("This is a delete request");
-
-
-})
-
+    res.json({ message: "DELETE request received" });
+});
 
 app.put('/', (req, res) => {
-    console.log("This is a put request");
-})
+    res.json({ message: "PUT request received" });
+});
 
-
-
-
-
+// Start Server
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Server is running on port ${PORT}`);
+});
