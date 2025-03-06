@@ -7,7 +7,7 @@ export async function createOrder(req,res){
     console.log(data);
     
     const orderInfo = {
-        orderdItems:[],
+        orderedItems:[],
 
     }
 
@@ -39,32 +39,32 @@ export async function createOrder(req,res){
 
     let onedayCost = 0;
 
-    for(let i=0; i<data.orderdItems.length; i++){
+    for(let i=0; i<data.orderedItems.length; i++){
         try{
-            const orderItem = await Product.findOne({key:data.orderdItems[i].key});
+            const orderItem = await Product.findOne({key:data.orderedItems[i].key});
             if(orderItem==null){
-                return res.status(404).json({message:"Product not found for id: "+data.orderdItems[i].key});
+                return res.status(404).json({message:"Product not found for id: "+data.orderedItems[i].key});
             }
             else if(orderItem.availability==false){
                 return res.status(400).json({message:`Product : ${orderItem.name} not available at the moment`});
             }
             else{
 
-                orderInfo.orderdItems.push({
+                orderInfo.orderedItems.push({
                     product :{
                     
                     key:orderItem.key,
                     name:orderItem.name,
                     image:orderItem.image[0],
                     price:orderItem.price},
-                    quantity:data.orderdItems[i].qty
+                    quantity:data.orderedItems[i].qty
                 });
                 console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-                console.log(orderInfo.orderdItems);
+                console.log(orderInfo.orderedItems);
                 console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-                onedayCost += orderItem.price*data.orderdItems[i].qty;
+                onedayCost += orderItem.price*data.orderedItems[i].qty;
 
                 console.log(onedayCost);
                 
@@ -105,4 +105,31 @@ console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
 
 
+}
+
+export async function getQuote(req,res){
+    
+    const data = req.body.cartInfo;
+    console.log(data);
+    
+    let totalCost = 0;
+
+    for(let i=0; i<data.orderedItems.length; i++){
+        try{
+            const orderItem = await Product.findOne({key:data.orderedItems[i].key});
+            if(orderItem==null){
+                return res.status(404).json({message:"Product not found for id: "+data.orderedItems[i].key});
+            }
+            else if(orderItem.availability==false){
+                return res.status(400).json({message:`Product : ${orderItem.name} not available at the moment`});
+            }
+            else{
+                totalCost += orderItem.price*data.orderedItems[i].qty;
+            }
+        }catch(err){
+            return res.status(500).json({message:"Internal server error"});
+        }
+    }
+
+    return res.status(200).json({message:"Quote generated successfully", totalCost:totalCost});
 }

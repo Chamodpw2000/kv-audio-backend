@@ -12,7 +12,7 @@ const orderShema = new mongoose.Schema({
         required: true,
         default: Date.now
     },
-    orderdItems :{
+    orderedItems :{
 
         type:[
             {
