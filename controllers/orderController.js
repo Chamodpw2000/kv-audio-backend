@@ -1,5 +1,6 @@
 import Order from "../models/order.js";
 import Product from "../models/products.js";
+import { isItAdmin } from "./userController.js";
 
 export async function createOrder(req,res){
 
@@ -133,3 +134,58 @@ export async function getQuote(req,res){
 
     return res.status(200).json({message:"Quote generated successfully", totalCost:totalCost});
 }
+
+export async function getAllOrders(req,res){
+
+    try{
+        
+        if(req.user==null){
+        return res.status(403).json({message:"Please Log in to continue"});
+
+    }
+    else if(isItAdmin(req)){
+
+        const orders = await Order.find();
+        return res.status(200).json(orders);
+
+    }else{
+        const orders = await Order.find({email:req.user.email});
+        return res.status(200).json(orders);}
+
+   
+
+       
+
+
+    }catch(e){
+
+        console.log(e);
+        
+    }
+}
+
+export async function approveOrRejectOrder(req,res){
+    const orderId = req.params.orderId;
+    const status = req.body.orderStatus;
+    if(isItAdmin(req)){
+        try{
+
+            let order = await Order.findOne({orderId:orderId});
+
+            if(order==null){
+                return res.status(404).json({message:"Order not found"});
+            }
+             order = await Order.findOneAndUpdate({orderId:orderId},{status:status},{new:true});
+
+            return res.status(200).json({message:"Order status updated successfully", order:order});
+           
+
+        }catch(e){
+
+            console.log(e);
+            
+        }}
+    
+    else{
+        return res.status(403).json({message:"Unauthorized"});  
+    }}
