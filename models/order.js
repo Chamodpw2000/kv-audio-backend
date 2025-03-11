@@ -72,6 +72,12 @@ startingDate :{
         default: false
     },
 
+    status:{
+        type: String,
+        required: true,
+        default: "Pending"
+    },
+
    email:{
        type: String,
        required: true
