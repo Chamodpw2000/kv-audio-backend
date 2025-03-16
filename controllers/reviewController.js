@@ -42,8 +42,8 @@ export function addReview(req, res) {
 
     newreview.save().then(() => {
         res.json({ message: "Review Added Successfully" });
-    }).catch(() => {
-        res.status(500).json({ error: "Review Adding Faild" });
+    }).catch((e) => {
+        res.status(500).json({ error: "Review Adding Faild",e });
     });
 
 

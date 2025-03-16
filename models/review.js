@@ -5,13 +5,13 @@ const reviewSchema = new mongoose.Schema({
     email:{
         type : String,
         required : true,
-        unique: true
+        
     },
 
     name : {
         type: String,
         required : true,
-        unique: true 
+        
     }, 
     rating : {
         type : Number,
@@ -37,7 +37,20 @@ const reviewSchema = new mongoose.Schema({
         required : true,
         default: "https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
 
+    },
+
+    itemId : {
+        type : String,
+        required : true,
+        default : "itemABC"
+    },
+    photos: {
+        type: Array,
+        required: true,
+        default: []
     }
+
+
 
 
 
