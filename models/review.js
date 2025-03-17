@@ -48,6 +48,11 @@ const reviewSchema = new mongoose.Schema({
         type: Array,
         required: true,
         default: []
+    },
+    itemName: {
+        type: String,
+        required: true,
+        default: "Unknown item"
     }
 
 

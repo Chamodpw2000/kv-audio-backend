@@ -1,6 +1,7 @@
+import Product from "../models/products.js";
 import Review from "../models/review.js";
 
-export function addReview(req, res) {
+export async function addReview(req, res) {
 
 
     if (req.user == null) {
@@ -29,6 +30,15 @@ export function addReview(req, res) {
 
     data.profilePicture = req.user.profilePicture
 
+    const item = await Product.findOne( {key: data.itemId})
+    console.log(item);
+    
+    const itemName = item.name
+
+    data.itemName = itemName
+
+
+
     // console.log(data);
 
 
@@ -41,10 +51,12 @@ export function addReview(req, res) {
 
 
     newreview.save().then(() => {
-        res.json({ message: "Review Added Successfully" });
+        res.json({ message: "Review Added Successfully"});
     }).catch((e) => {
         res.status(500).json({ error: "Review Adding Faild",e });
     });
+
+
 
 
 
