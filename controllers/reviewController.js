@@ -32,10 +32,14 @@ export async function addReview(req, res) {
 
     const item = await Product.findOne( {key: data.itemId})
     console.log(item);
-    
-    const itemName = item.name
 
-    data.itemName = itemName
+  
+    
+    if(item != null){
+        data.itemName = item.name
+    }
+
+  
 
 
 

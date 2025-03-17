@@ -41,8 +41,8 @@ const reviewSchema = new mongoose.Schema({
 
     itemId : {
         type : String,
-        required : true,
-        default : "itemABC"
+        
+        
     },
     photos: {
         type: Array,
@@ -51,8 +51,7 @@ const reviewSchema = new mongoose.Schema({
     },
     itemName: {
         type: String,
-        required: true,
-        default: "Unknown item"
+      
     }
 
 
