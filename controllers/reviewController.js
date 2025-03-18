@@ -1,6 +1,7 @@
+import Product from "../models/products.js";
 import Review from "../models/review.js";
 
-export function addReview(req, res) {
+export async function addReview(req, res) {
 
 
     if (req.user == null) {
@@ -29,6 +30,19 @@ export function addReview(req, res) {
 
     data.profilePicture = req.user.profilePicture
 
+    const item = await Product.findOne({ key: data.itemId })
+    console.log(item);
+
+
+
+    if (item != null) {
+        data.itemName = item.name
+    }
+
+
+
+
+
     // console.log(data);
 
 
@@ -42,9 +56,11 @@ export function addReview(req, res) {
 
     newreview.save().then(() => {
         res.json({ message: "Review Added Successfully" });
-    }).catch(() => {
-        res.status(500).json({ error: "Review Adding Faild" });
+    }).catch((e) => {
+        res.status(500).json({ error: "Review Adding Faild", e });
     });
+
+
 
 
 
@@ -70,7 +86,7 @@ export function getReviews(req, res) {
     } else if (user.role == "admin") {
         Review.find()
             .then((reviews) => {
-                res.status(200).json({ reviews });
+                res.status(200).json(reviews );
             })
             .catch((err) => {
                 res.status(400).json({ message: "Error getting requests " + err });
@@ -84,7 +100,7 @@ export function deleteReview(req, res) {
 
 
 
-    console.log("dellllllllllllllllllllll");
+  
 
 
 
@@ -129,14 +145,14 @@ export function deleteReview(req, res) {
 
 export function approveReview(req, res) {
 
-    
+
 
     const email = req.params.email
 
 
     console.log(req.user);
-    
-    
+
+
 
     if (req.user.role == "admin") {
 
@@ -145,14 +161,15 @@ export function approveReview(req, res) {
             email: email
         }, {
 
-            isApproves : true        }).then(()=>{
-                res.status(200).json({message:"Review Approved Successfully"})
-            }).catch((err)=>{
-                res.status(401).json({message:"Failed to delete review"+ err})
-            })
+            isApproves: true
+        }).then(() => {
+            res.status(200).json({ message: "Review Approved Successfully" })
+        }).catch((err) => {
+            res.status(401).json({ message: "Failed to delete review" + err })
+        })
 
-    }else{
-        res.status(403).json({message:"You are Not autharized to perform this action, only admins can approve reviews"})
+    } else {
+        res.status(403).json({ message: "You are Not autharized to perform this action, only admins can approve reviews" })
     }
 }
 

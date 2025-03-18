@@ -9,6 +9,7 @@ import userRouter from './routes/userRouter.js';
 import productRoute from './routes/productsRoute.js';
 import reviewRouter from './routes/reviewRoute.js';
 import inquiryRouter from './routes/inquiryRoute.js';
+import orderRouter from './routes/orderRouter.js';
 
 // Load environment variables
 dotenv.config();
@@ -47,6 +48,7 @@ app.use("/api/users", userRouter);
 app.use("/api/products", productRoute);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiries", inquiryRouter);
+app.use("/api/orders",orderRouter);
 
 // Test Routes
 app.get('/', (req, res) => {
