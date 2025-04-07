@@ -1,4 +1,4 @@
-import { response } from "express";
+
 import mongoose from "mongoose";
 
 const inquirySchema = new mongoose.Schema({
