@@ -1,4 +1,5 @@
 import Gallery from "../models/gallery.js";
+import Review from "../models/review.js";
 import { isItAdmin } from "./userController.js";
 
 export async function addGalleryItem(req, res) {
@@ -110,5 +111,26 @@ export async function updateGalleryItem(req, res) {
             console.error(error);
             return res.status(500).json({ message: "Failed to update gallery item" });
         }
+    }
+}
+
+
+
+
+export async function getImagesFromFeedbacks(req, res){
+
+    try {
+
+        console.log("Fetching feedback images");
+        
+
+        const feedbacks = await Review.find({ isApproves: true }).select("photos");
+        const images = feedbacks.map(feedback => feedback.photos).flat();
+        return res.status(200).json(images);
+        
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Failed to fetch images from feedbacks" });
+        
     }
 }
