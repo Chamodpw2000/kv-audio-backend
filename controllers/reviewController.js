@@ -81,7 +81,7 @@ export function getReviews(req, res) {
                 res.status(200).json(reviews);
             })
             .catch((err) => {
-                res.status(400).json({ message: "Error getting requests " + err });
+                res.status(400).json({ message: "Error getting reviews " + err });
             });
     } else if (user.role == "admin") {
         Review.find()
@@ -89,7 +89,7 @@ export function getReviews(req, res) {
                 res.status(200).json(reviews );
             })
             .catch((err) => {
-                res.status(400).json({ message: "Error getting requests " + err });
+                res.status(400).json({ message: "Error getting reviews " + err });
             });
     }
 }
@@ -97,15 +97,6 @@ export function getReviews(req, res) {
 
 
 export function deleteReview(req, res) {
-
-
-
-  
-
-
-
-
-
 
     const email = req.params.email;
 

@@ -19,16 +19,26 @@ const transport = nodemailer.createTransport({
 dotenv.config();
 
 
-export function AddUser(req, res) {
-    console.log("Add User");
+export async function AddUser(req, res) {
+   
     
 
-    console.log(req);
+  
+
+
     
 
 
 
     const data = req.body;
+
+    console.log(data);
+
+    const user = await User.findOne({ email: data.email });
+    if (user != null) {
+
+        return res.status(400).json({ error: "User Already Exists, Try Login"  })
+    }
 
     data.password = bcrypt.hashSync(data.password, 10)
 
