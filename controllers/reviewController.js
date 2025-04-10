@@ -165,3 +165,31 @@ export function approveReview(req, res) {
 }
 
 
+
+export function getProductReviews(req, res) {
+    const itemId = req.params.itemId;
+    console.log(itemId);
+    try {
+
+        Review.find({ itemId: itemId, isApproves: true })
+        .then((reviews) => {
+            console.log("reviews", reviews);
+
+            const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length || 0;
+            console.log("rating", rating);
+            
+            res.status(200).json(reviews);
+        })
+        .catch((err) => {
+            res.status(400).json({ message: "Error getting reviews " + err });
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+        
+    }
+    
+}
+
+
