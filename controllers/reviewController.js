@@ -16,6 +16,17 @@ export async function addReview(req, res) {
 
     }
 
+
+if(req.body.itemId){
+    const existingReview = await Review.findOne({ email: req.user.email, itemId: req.body.itemId });
+    if (existingReview) {
+        return res.status(400).json({ message: "You have already reviewed this product, If you want to edit to visit your profile" });
+    }
+
+}
+
+
+ 
     const data = req.body
 
     // console.log(data);
@@ -162,6 +173,40 @@ export function approveReview(req, res) {
     } else {
         res.status(403).json({ message: "You are Not autharized to perform this action, only admins can approve reviews" })
     }
+}
+
+
+
+export function getProductReviews(req, res) {
+    const itemId = req.params.itemId;
+    console.log(itemId);
+    try {
+
+        Review.find({ itemId: itemId, isApproves: true })
+        .then((reviews) => {
+            console.log("reviews", reviews);
+
+            const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length || 0;
+            
+            const response = {
+                reviews: reviews,
+                rating: rating,
+            };
+
+            console.log("response", response);
+            
+            res.status(200).json(response);
+        })
+        .catch((err) => {
+            res.status(400).json({ message: "Error getting reviews " + err });
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Internal server error" });
+        
+    }
+    
 }
 
 
