@@ -228,3 +228,36 @@ export function getProductReviews(req, res) {
 }
 
 
+export async function updateReview(req, res) {
+    console.log("uiwhuwuhswuhduwhdiwdh");
+    
+    const reviewId = req.params._id;
+    const updatedData = req.body;
+
+    console.log("Updated data", updatedData);
+
+    if (req.user == null) {
+        res.status(401).json({ message: "Please Log in to continue" });
+        return;
+    }
+const review = await Review.findById(reviewId);
+    if (!review) {
+        return res.status(404).json({ message: "Review not found" });
+    }
+
+
+    if (req.user.role == "admin"|| req.user.email == review.email) {
+        Review.findByIdAndUpdate(reviewId, updatedData, { new: true })
+            .then((updatedReview) => {
+                res.status(200).json(updatedReview);
+            })
+            .catch((err) => {
+                res.status(400).json({ message: "Error updating review " + err });
+            });
+    } else {
+        res.status(403).json({ message: "You are not authorized to update this review" });
+    }
+}
+
+
+
