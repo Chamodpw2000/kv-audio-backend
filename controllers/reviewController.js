@@ -106,6 +106,24 @@ export function getReviews(req, res) {
 }
 
 
+export function getMyReviews(req, res) {
+    const user = req.user;
+
+
+    if (user === null ) {
+        res.status(401).json({ message: "Please Log in to continue" });
+    } else if (user.role == "customer") {
+        Review.find({ email: user.email })
+            .then((reviews) => {
+                res.status(200).json(reviews );
+            })
+            .catch((err) => {
+                res.status(400).json({ message: "Error getting reviews " + err });
+            });
+    }
+}
+
+
 
 export function deleteReview(req, res) {
 
