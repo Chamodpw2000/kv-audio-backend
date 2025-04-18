@@ -161,7 +161,8 @@ export async function getUserProfile(req,res){
 
     }
     else{
-        return res.status(200).json(req.user);
+        const user = await User.findOne({email:req.user.email});
+        return res.status(200).json(user);
     }
 }
 
@@ -291,6 +292,39 @@ export async function verifyOTP(req,res){
         await User.updateOne({email:email},{emailVerified:true});
         return res.status(200).json({message:"Email Verified Successfully"});
     }
+}
+
+
+export function editUserProfile(req,res){
+
+
+
+    console.log("User Profile Edit Request",req.body);
+    
+ 
+    const data = req.body;
+    const email = req.user.email;
+
+
+    if(req.user == null){
+        return res.status(403).json({message:"Unoauthorized"});
+    }
+
+    if(data.email != req.user.email && isItCustomer(req)){
+        return res.status(403).json({message:"Unauthorized"});
+
+    }
+
+
+
+
+
+
+    User.updateOne({email:email},data).then(()=>{
+        res.status(200).json({message:"User Profile Updated Successfully", data});
+    }).catch((error)=>{
+        res.status(500).json({error:"Failed to update user profile"});
+    })
 }
 
 
