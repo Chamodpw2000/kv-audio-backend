@@ -127,7 +127,7 @@ export function getMyReviews(req, res) {
 
 export function deleteReview(req, res) {
 
-    const email = req.params.email;
+    const _id = req.params._id;
 
     // console.log(email);
 
@@ -141,7 +141,7 @@ export function deleteReview(req, res) {
 
     else if (req.user.role == 'admin') {
 
-        Review.deleteOne({ email: email }).then(() => {
+        Review.deleteOne({ _id: _id }).then(() => {
             res.status(200).json({ message: "Review Deleted successfully" })
         }).catch((err) => {
             res.status(400).json({ message: "Error deleting review" + err })
@@ -149,7 +149,7 @@ export function deleteReview(req, res) {
     }
 
     else if (req.user.role == "customer" && email == req.user.email) {
-        Review.deleteOne({ email: email }).then(() => {
+        Review.deleteOne({ _id:_id }).then(() => {
             res.status(200).json({ message: "Review Deleted successfully" })
         }).catch((err) => {
             res.status(400).json({ message: "Error deleting review" + err })
@@ -167,7 +167,56 @@ export function approveReview(req, res) {
 
 
 
-    const email = req.params.email
+    const id = req.params._id;
+
+
+
+    console.log(req.user);
+
+
+try {
+
+    if (req.user.role == "admin") {
+
+
+        console.log("Approving review with ID:", id);
+        
+
+
+        Review.findByIdAndUpdate(
+        id
+        , {
+
+            isApproves: true
+        }).then(() => {
+            console.log("Review approved successfully");
+            
+            res.status(200).json({ message: "Review Approved Successfully" })
+        }).catch((err) => {
+            console.error("Error approving review:", err);
+            res.status(401).json({ message: "Failed to delete review" + err })
+        })
+
+    } else {
+        res.status(403).json({ message: "You are Not autharized to perform this action, only admins can approve reviews" })
+    }
+    
+} catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+    
+}
+    
+}
+
+
+
+export function unapproveReview(req, res) {
+
+
+
+    const id = req.params._id;
+
 
 
     console.log(req.user);
@@ -177,15 +226,15 @@ export function approveReview(req, res) {
     if (req.user.role == "admin") {
 
 
-        Review.findOneAndUpdate({
-            email: email
-        }, {
+        Review.findById(
+        id
+        , {
 
-            isApproves: true
+            isApproves: false
         }).then(() => {
-            res.status(200).json({ message: "Review Approved Successfully" })
+            res.status(200).json({ message: "Review Unpublished Successfully" })
         }).catch((err) => {
-            res.status(401).json({ message: "Failed to delete review" + err })
+            res.status(401).json({ message: "Failed to unpublish review" + err })
         })
 
     } else {
