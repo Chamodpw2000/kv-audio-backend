@@ -328,3 +328,23 @@ export function editUserProfile(req,res){
 }
 
 
+export async function getUserPic(req,res) {
+
+    const email = req.params.email;
+    console.log("Email",email);
+  
+
+    try {
+        const user = await User.findOne({ email: email });
+        if (user == null) {
+            return res.status(404).json({ message: "User not found" });
+        } else {
+            return res.status(200).json(user.profilePicture);
+        }
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+
+}
+
+
