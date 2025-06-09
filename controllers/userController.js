@@ -328,10 +328,10 @@ export function editUserProfile(req,res){
 }
 
 
-export async function getUserPic(req,res) {
+export async function getUser(req,res) {
 
     const email = req.params.email;
-    console.log("Email",email);
+
   
 
     try {
@@ -339,7 +339,7 @@ export async function getUserPic(req,res) {
         if (user == null) {
             return res.status(404).json({ message: "User not found" });
         } else {
-            return res.status(200).json(user.profilePicture);
+            return res.status(200).json(user);
         }
     } catch (error) {
         return res.status(500).json({ message: "Internal server error" });
