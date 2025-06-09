@@ -127,9 +127,12 @@ export function getMyReviews(req, res) {
 
 export function deleteReview(req, res) {
 
+    console.log("Deleting review");
+    
+
     const _id = req.params._id;
 
-    // console.log(email);
+    const email = req.user.email;   
 
     console.log(req.user);
 
