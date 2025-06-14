@@ -11,6 +11,7 @@ import reviewRouter from './routes/reviewRoute.js';
 import inquiryRouter from './routes/inquiryRoute.js';
 import orderRouter from './routes/orderRouter.js';
 import galleryRouter from './routes/galleryRoute.js';
+import newsLetterRouter from './routes/newsLetterRoute.js';
 
 // Load environment variables
 dotenv.config();
@@ -51,6 +52,7 @@ app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiries", inquiryRouter);
 app.use("/api/orders",orderRouter);
 app.use("/api/gallery", galleryRouter);
+app.use('/api/newsletter',newsLetterRouter);
  
 
 // Test Routes
