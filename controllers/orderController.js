@@ -5,7 +5,6 @@ import { isItAdmin } from "./userController.js";
 export async function createOrder(req,res){
 
     const  data = req.body;
-    console.log(data);
     
     const orderInfo = {
         orderedItems:[],
@@ -26,6 +25,8 @@ export async function createOrder(req,res){
 
 
     const lastOrder = await Order.find().sort({orderDate:-1}).limit(1);
+    console.log(lastOrder);
+    
     if(lastOrder.length == 0){
         orderInfo.orderId = "ORD0001";
 
@@ -60,14 +61,10 @@ export async function createOrder(req,res){
                     price:orderItem.price},
                     quantity:data.orderedItems[i].qty
                 });
-                console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-                console.log(orderInfo.orderedItems);
-                console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
                 onedayCost += orderItem.price*data.orderedItems[i].qty;
 
-                console.log(onedayCost);
                 
             }
         }catch(err){
@@ -83,16 +80,10 @@ export async function createOrder(req,res){
     try{
 
         
-console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-console.log(orderInfo);
-console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
 
         const newOrder = new Order(orderInfo);
-        console.log("==========================================================");
-        
-        console.log(newOrder);
 
-        console.log("==========================================================");
 
 
         await newOrder.save();
