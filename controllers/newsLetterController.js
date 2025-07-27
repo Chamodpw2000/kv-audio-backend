@@ -3,7 +3,7 @@ import NewsLetter from "../models/newsLetter.js";
 export async function subscribeToNewsletter(req, res) {
 
 const email = req.body;
-console.log(email);
+
 
 const existing =await NewsLetter.findOne({ email: email.email });
 if (existing) {

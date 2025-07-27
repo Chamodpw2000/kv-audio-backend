@@ -25,7 +25,7 @@ export async function createOrder(req,res){
 
 
     const lastOrder = await Order.find().sort({orderDate:-1}).limit(1);
-    console.log(lastOrder);
+
     
     if(lastOrder.length == 0){
         orderInfo.orderId = "ORD0001";
@@ -102,7 +102,7 @@ export async function createOrder(req,res){
 export async function getQuote(req,res){
     
     const data = req.body.cartInfo;
-    console.log(data);
+
     
     let totalCost = 0;
 

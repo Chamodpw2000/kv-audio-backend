@@ -33,11 +33,18 @@ app.use((req, res, next) => {
         token = token.replace("Bearer ", "");
         jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (!err) {
+                if (decoded.isblocked) {
+                    return res.status(403).json({ message: "User is blocked" });
+                }
                 req.user = decoded;
+                return next();
             }
+            // If token is invalid, continue without user
+            return next();
         });
+    } else {
+        next();
     }
-    next();
 });
 
 // MongoDB Connection

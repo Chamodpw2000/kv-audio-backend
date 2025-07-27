@@ -29,9 +29,7 @@ if(req.body.itemId){
  
     const data = req.body
 
-    // console.log(data);
 
-    // console.log(data.comment);
 
 
 
@@ -42,7 +40,7 @@ if(req.body.itemId){
     data.profilePicture = req.user.profilePicture
 
     const item = await Product.findOne({ key: data.itemId })
-    console.log(item);
+
 
 
 
@@ -53,15 +51,13 @@ if(req.body.itemId){
 
 
 
-
-    // console.log(data);
+;
 
 
 
     const newreview = new Review(data)
 
-    // console.log(newreview.comment);
-    // console.log(data.comment);
+
 
 
 
@@ -127,14 +123,13 @@ export function getMyReviews(req, res) {
 
 export function deleteReview(req, res) {
 
-    console.log("Deleting review");
     
 
     const _id = req.params._id;
 
     const email = req.user.email;   
 
-    console.log(req.user);
+    
 
 
 
@@ -174,7 +169,7 @@ export function approveReview(req, res) {
 
 
 
-    console.log(req.user);
+
 
 
 try {
@@ -182,7 +177,7 @@ try {
     if (req.user.role == "admin") {
 
 
-        console.log("Approving review with ID:", id);
+      
         
 
 
@@ -192,7 +187,7 @@ try {
 
             isApproves: true
         }).then(() => {
-            console.log("Review approved successfully");
+    
             
             res.status(200).json({ message: "Review Approved Successfully" })
         }).catch((err) => {
@@ -222,7 +217,7 @@ export function unapproveReview(req, res) {
 
 
 
-    console.log(req.user);
+  
 
 
 
@@ -249,12 +244,12 @@ export function unapproveReview(req, res) {
 
 export function getProductReviews(req, res) {
     const itemId = req.params.itemId;
-    console.log(itemId);
+
     try {
 
         Review.find({ itemId: itemId, isApproves: true })
         .then((reviews) => {
-            console.log("reviews", reviews);
+ 
 
             const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length || 0;
             
@@ -263,7 +258,7 @@ export function getProductReviews(req, res) {
                 rating: rating,
             };
 
-            console.log("response", response);
+
             
             res.status(200).json(response);
         })
@@ -281,12 +276,12 @@ export function getProductReviews(req, res) {
 
 
 export async function updateReview(req, res) {
-    console.log("uiwhuwuhswuhduwhdiwdh");
+
     
     const reviewId = req.params._id;
     const updatedData = req.body;
 
-    console.log("Updated data", updatedData);
+
 
     if (req.user == null) {
         res.status(401).json({ message: "Please Log in to continue" });
