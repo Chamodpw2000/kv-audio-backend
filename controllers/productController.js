@@ -4,7 +4,7 @@ import { isItAdmin } from "./userController.js"
 export function AddProduct(req, res) {
 
 
-  console.log(req.body);
+
   
   
 
@@ -80,12 +80,11 @@ export async function UpdateProduct(req,res){
 
 export async function DeleteProduct(req, res) {
   try {
-    console.log("Delete Product");
+   
 
     if (isItAdmin(req)) {
       const key = req.params.key;
-      console.log("admin");
-      
+  
       
       // Add error handling for the delete operation
       const deletedProduct = await Product.findOneAndDelete({ key: key });
@@ -111,7 +110,7 @@ export async function DeleteProduct(req, res) {
 
 export async function getProduct(req,res){
   const key = req.params.key
-  console.log(key);
+
   
 
   try {

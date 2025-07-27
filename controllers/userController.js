@@ -32,7 +32,6 @@ export async function AddUser(req, res) {
 
     const data = req.body;
 
-    console.log(data);
 
     const user = await User.findOne({ email: data.email });
     if (user != null) {
@@ -168,11 +167,11 @@ export async function getUserProfile(req,res){
 
 export async function loginWithGoogle(req,res){
 
-    console.log("Token",req.body.accesToken);
+
     
 
 const accesToken = req.body.accesToken;
-// console.log(accesToken);
+
 try {
     const responce = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo`,{
         headers:{
@@ -180,7 +179,7 @@ try {
         },
     });
 
-    console.log(responce.data);
+
 
     const user = await User.findOne({email:responce.data.email});
     if(user != null ){
@@ -299,7 +298,7 @@ export function editUserProfile(req,res){
 
 
 
-    console.log("User Profile Edit Request",req.body);
+   
     
  
     const data = req.body;

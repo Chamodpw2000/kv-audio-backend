@@ -52,7 +52,7 @@ async function run() {
         }
 
         await db.collection('orders').insertMany(orders);
-        console.log("Inserted 100 orders successfully!");
+
     } finally {
         await client.close();
     }

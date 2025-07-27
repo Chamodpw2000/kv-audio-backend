@@ -4,7 +4,7 @@ import { isItAdmin } from "./userController.js";
 
 export async function addGalleryItem(req, res) {
 
-    console.log("Adding gallery item",req.body);
+ 
     
 
 
@@ -87,8 +87,7 @@ export async function deleteGalleryItem(req, res) {
 }
 
 export async function updateGalleryItem(req, res) {
-    console.log("Updating gallery item",req.body);
-    console.log("Updating gallery item",req.params);
+
     
     if(!isItAdmin(req)){
         return res.status(403).json({message:"Unauthorized"});  
@@ -121,7 +120,7 @@ export async function getImagesFromFeedbacks(req, res){
 
     try {
 
-        console.log("Fetching feedback images");
+  
         
 
         const feedbacks = await Review.find({ isApproves: true }).select("photos");
