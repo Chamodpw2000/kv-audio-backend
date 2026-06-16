@@ -52,7 +52,7 @@ export async function GetProducts(req, res) {
 
   } catch (e) {
 
-    res.status(200).json({ message: "Fail to add product" })
+    res.status(500).json({ message: "Failed to get products" })
 
 
   }
