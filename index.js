@@ -64,6 +64,9 @@ app.use('/api/newsletter',newsLetterRouter);
 app.use("/api/analytics", analyticsRouter);
  
 
+// Health check
+app.get('/healthz', (req, res) => res.status(200).json({ status: 'ok' }));
+
 // Test Routes
 app.get('/', (req, res) => {
     res.send("Welcome to the KV-Audio Backend");
@@ -82,6 +85,12 @@ app.put('/', (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, "0.0.0.0", () => {
+const server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`🚀 Server is running on port ${PORT}`);
+});
+
+process.on('SIGTERM', () => {
+    server.close(() => {
+        mongoose.connection.close().then(() => process.exit(0));
+    });
 });

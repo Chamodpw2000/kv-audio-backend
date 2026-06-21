@@ -5,18 +5,19 @@ import dotenv from "dotenv"
 import axios from "axios";
 import nodemailer from "nodemailer";
 import OTP from "../models/otp.js";
+
+dotenv.config();
+
 const transport = nodemailer.createTransport({
     service:"gmail",
     host:"smtp.gmail.com",
     port:587,
     secure:false,
     auth:{
-        user:"chamodpwanigasekara2000@gmail.com",
-        pass:"hxrpuqcqwzregkcj"
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
     }
 })
-
-dotenv.config();
 
 
 export async function AddUser(req, res) {
@@ -255,7 +256,7 @@ export async function sendOTP(req,res){
         await newOTP.save();
 
     const message = {
-        from : "chamodpwanigasekara2000@gmail.com",
+        from : process.env.MAIL_USER,
         to:req.user.email,
         subject:"OTP for Email Verification",
         text:"Your OTP is"+ otp
