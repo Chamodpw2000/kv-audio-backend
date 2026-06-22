@@ -13,7 +13,7 @@ import orderRouter from './routes/orderRouter.js';
 import galleryRouter from './routes/galleryRoute.js';
 import newsLetterRouter from './routes/newsLetterRoute.js';
 import analyticsRouter from './routes/analyticsRoute.js';
-
+//
 // Load environment variables
 dotenv.config();
 
