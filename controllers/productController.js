@@ -30,7 +30,7 @@ export function AddProduct(req, res) {
       res.json({ message: "Product added successfully" });
     })
     .catch((error) => {
-      res.status(500).json({ error: "Product addition failed", error });
+      res.status(500).json({ message: "Product addition failed", error });
     });
 }
 
